@@ -13,13 +13,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {FooterComponent} from './footer/footer.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
+import {UsersComponent} from './users/users.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -36,4 +38,5 @@ import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

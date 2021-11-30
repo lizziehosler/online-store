@@ -17,6 +17,7 @@ import {UserComponent} from './user/user.component';
 import {HttpClientModule} from '@angular/common/http';
 import {UserService} from './services/user.service';
 import {UserListComponent} from './user/user-list/user-list.component';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {UserListComponent} from './user/user-list/user-list.component';
     MatButtonModule,
     NgbModule,
     _MatMenuDirectivesModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTableModule
   ],
   providers: [
     UserService

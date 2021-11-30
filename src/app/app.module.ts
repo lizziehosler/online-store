@@ -13,7 +13,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {FooterComponent} from './footer/footer.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
-import {UsersComponent} from './users/users.component';
+import {UserComponent} from './user/user.component';
+import {HttpClientModule} from '@angular/common/http';
+import {UserService} from './services/user.service';
+import {UserListComponent} from './user/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +24,14 @@ import {UsersComponent} from './users/users.component';
     HomepageComponent,
     HeaderComponent,
     FooterComponent,
-    UsersComponent
+    UserComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatIconModule,
     MatToolbarModule,
     MatDividerModule,
@@ -35,7 +40,9 @@ import {UsersComponent} from './users/users.component';
     _MatMenuDirectivesModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

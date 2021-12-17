@@ -20,5 +20,13 @@ export class UserService {
   createUser(data): Observable<User> {
     return this.httpClient.post<User>(`${this.url}`, data);
   }
+
+  getUserById(id) {
+    return this.httpClient.get<User>(`${this.url}/${id}`);
+  }
+
+  updateUser(id, data) {
+    return this.httpClient.put<User>(`${this.url}/${id}`, data);
+  }
 }
 

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorPopupComponent} from '../../component/error-popup/error-popup.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute, Router} from '@angular/router';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-user',
@@ -13,13 +14,14 @@ import {MatDialog} from '@angular/material/dialog';
         <mat-icon>arrow_back_ios</mat-icon>
         VIEW ALL USERS
       </button>
-      <div class="title">Add a New User</div>
+      <div class="title" *ngIf="isAddMode">Add a New User</div>
+      <div class="title" *ngIf="!isAddMode">Edit User</div>
 
     </div>
 
     <div class="container">
       <mat-card>
-        <form [formGroup]="form" (ngSubmit)="submitForm(form)">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="standard" class="full-width">
             <mat-label>First Name</mat-label>
             <input matInput maxlength="15" inputmode="tel" placeholder="Type first name" formControlName="firstName" #firstNameInput>
@@ -46,7 +48,7 @@ import {MatDialog} from '@angular/material/dialog';
             <mat-error *ngIf="(form.get('email')).errors?.pattern">Email must be a valid email address</mat-error>
           </mat-form-field>
           <div mat-dialog-actions>
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading">Submit</button>
           </div>
         </form>
       </mat-card>
@@ -56,16 +58,32 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class NewUserComponent implements OnInit {
   form: FormGroup;
+  id: string;
+  isAddMode: boolean;
+  loading = false;
+  submitted = false;
+
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params.id;
+    this.isAddMode = !this.id;
+
     this.createForm();
+
+    if (!this.isAddMode) {
+      this.userService.getUserById(this.id)
+        .pipe(first())
+        .subscribe(x => this.form.patchValue(x));
+    }
   }
 
   private createForm() {
@@ -78,25 +96,66 @@ export class NewUserComponent implements OnInit {
     });
   }
 
-  submitForm(form) {
-    this.userService.createUser(this.form.value)
-      .subscribe(
-        (data) => {
-          alert('SUCCESS!! :-)\n\n' + JSON.stringify(form.value, null, 4));
 
-        },
-        (error: HttpErrorResponse) => {
-          this.openDialog();
-          console.log(error);
-        }
-      );
-    form.reset();
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    if (this.isAddMode) {
+      this.createUser(this.form);
+    } else {
+      this.editUser(this.form);
+    }
   }
 
-  openDialog() {
+  private createUser(form) {
+    this.userService.createUser(this.form.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          alert('SUCCESS!! :-)\n\n' + JSON.stringify(form.value, null, 4));
+          this.router.navigate(['users']);
+        },
+        error: error => {
+          this.addUserError();
+          this.loading = false;
+        }
+      });
+  }
+
+
+  private editUser(form) {
+    this.userService.updateUser(this.id, this.form.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          alert('SUCCESS!! :-)\n\n' + JSON.stringify(form.value, null, 4));
+          this.router.navigate(['users']);
+        },
+        error: error => {
+          this.editUserError();
+          this.loading = false;
+        }
+      });
+  }
+
+  private addUserError() {
     this.dialog.open(ErrorPopupComponent, {
       data: {
-        errorType: 'user',
+        errorType: 'addUser',
+      },
+    });
+  }
+
+  private editUserError() {
+    this.dialog.open(ErrorPopupComponent, {
+      data: {
+        errorType: 'editUser',
       },
     });
   }

@@ -4,7 +4,6 @@ import {HomepageComponent} from './homepage/homepage.component';
 import {UserListComponent} from './user/user-list/user-list.component';
 import {NewUserComponent} from './user/new-user/new-user.component';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
-import {EditUserComponent} from './user/edit-user/edit-user.component';
 
 
 const routes: Routes = [
@@ -21,8 +20,8 @@ const routes: Routes = [
     component: NewUserComponent
   },
   {
-    path: 'users/edit',
-    component: EditUserComponent
+    path: 'users/edit/:id',
+    component: NewUserComponent
   }
 ];
 

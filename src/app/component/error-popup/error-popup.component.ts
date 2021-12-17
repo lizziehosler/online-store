@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 export interface DialogData {
-  errorType: 'user';
+  errorType: 'addUser' | 'editUser';
 }
 
 @Component({
@@ -10,8 +10,11 @@ export interface DialogData {
   template: `
     <div class="error-popup">
       <h1 mat-dialog-title>An error has occurred</h1>
-      <div mat-dialog-content *ngIf="data.errorType === 'user'">
+      <div mat-dialog-content *ngIf="data.errorType === 'addUser'">
         User could not be submitted.
+      </div>
+      <div mat-dialog-content *ngIf="data.errorType === 'editUser'">
+        User could not be edited.
       </div>
       <div mat-dialog-actions>
         <button mat-button mat-dialog-close>Close</button>

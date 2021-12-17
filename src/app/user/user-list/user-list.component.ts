@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../common/user';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -43,7 +44,7 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let user">
-          <mat-icon [routerLink]="['/users/edit']" style="cursor:pointer;">edit</mat-icon>
+          <mat-icon (click)="routeToEditUser(user.id)" style="cursor:pointer;">edit</mat-icon>
         </td>
       </ng-container>
 
@@ -61,7 +62,9 @@ export class UserListComponent implements OnInit {
   users: User[];
   @ViewChild(MatTable) table: MatTable<User>;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private router: Router
+  ) {
   }
 
   ngOnInit(): void {
@@ -76,6 +79,10 @@ export class UserListComponent implements OnInit {
         this.dataSource.data = data;
       }
     );
+  }
+
+  routeToEditUser(id: number) {
+    this.router.navigate([`/users/edit/${id}`]);
   }
 
 

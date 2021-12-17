@@ -6,21 +6,15 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
 @Component({
   selector: 'app-user-list',
   template: `
-    <div class="title">Users</div>
-    <!--    <div class="demo-button-container">-->
-    <!--      <button mat-raised-button (click)="addData()" class="demo-button">-->
-    <!--        Add data-->
-    <!--      </button>-->
-    <!--      <button-->
-    <!--        mat-raised-button-->
-    <!--        [disabled]="!dataSource.length"-->
-    <!--        (click)="removeData()"-->
-    <!--        class="demo-button">-->
-    <!--        Remove data-->
-    <!--      </button>-->
-    <!--    </div>-->
+    <div class="title-group">
+      <div class="title">Users</div>
+      <button mat-raised-button color="primary" [routerLink]="['/users/new']">
+        <mat-icon>add_box</mat-icon>
+        ADD NEW USER
+      </button>
+    </div>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 user-table">
       <!-- Id Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -45,6 +39,14 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
         <td mat-cell *matCellDef="let user">{{user.email}}</td>
       </ng-container>
 
+      <!-- Edit Column -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let user">
+          <mat-icon [routerLink]="['/users/edit']" style="cursor:pointer;">edit</mat-icon>
+        </td>
+      </ng-container>
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -54,7 +56,7 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'edit'];
   dataSource = new MatTableDataSource([]);
   users: User[];
   @ViewChild(MatTable) table: MatTable<User>;

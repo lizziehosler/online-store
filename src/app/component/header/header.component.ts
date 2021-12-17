@@ -7,12 +7,12 @@ import {MatMenuTrigger} from '@angular/material/menu';
     <mat-toolbar color="primary">
       <a [routerLink]="['']" mat-flat-button color="primary" class="home-button">{{title}}</a>
       <div class="spacer"> |</div>
-      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>
+      <mat-icon>shopping_basket</mat-icon>
       <div class="admin-menu">
         <button mat-button [matMenuTriggerFor]="menu">ADMIN</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item
-                  [routerLink]="['/users']">Users
+                  [routerLink]="['/users']">USERS
           </button>
         </mat-menu>
       </div>

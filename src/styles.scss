@@ -1,10 +1,27 @@
 html, body {
   height: 100%;
+  margin: 0;
+}
+
+.wrapper {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.title {
+  font-size: 20pt;
+  font-weight: bold;
+  padding: 1rem 3rem 1rem 1rem;
+}
+
+.title-group {
+  display: flex;
+  padding: 1%;
 }
 
 /* Importing Bootstrap SCSS file. */

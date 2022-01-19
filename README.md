@@ -1,2 +1,2 @@
 # online-store-frontend
-Training project for full-stack
+Angular frontend for full-stack training project

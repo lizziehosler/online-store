@@ -15,6 +15,8 @@ import {MatMenuTrigger} from '@angular/material/menu';
                   [routerLink]="['/users']">USERS
           </button>
         </mat-menu>
+        <div> |</div>
+        <app-login-status></app-login-status>
       </div>
     </mat-toolbar>
   `,

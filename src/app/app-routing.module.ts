@@ -1,10 +1,11 @@
-import {NgModule} from '@angular/core';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {RouterModule, Routes} from '@angular/router';
 import {HomepageComponent} from './homepage/homepage.component';
-import {UserListComponent} from './user/user-list/user-list.component';
+import {OktaAuthGuard, OktaCallbackComponent} from '@okta/okta-angular';
+import {LoginComponent} from './login/login.component';
 import {NewUserComponent} from './user/new-user/new-user.component';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
-
+import {NgModule} from '@angular/core';
+import {UserListComponent} from './user/user-list/user-list.component';
 
 const routes: Routes = [
   {
@@ -13,23 +14,35 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UserListComponent
+    component: UserListComponent,
+    canActivate: [OktaAuthGuard]
   },
   {
     path: 'users/new',
-    component: NewUserComponent
+    component: NewUserComponent,
+    canActivate: [OktaAuthGuard]
   },
   {
     path: 'users/edit/:id',
-    component: NewUserComponent
+    component: NewUserComponent,
+    canActivate: [OktaAuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'login/callback',
+    component: OktaCallbackComponent
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
+  providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
+
   ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

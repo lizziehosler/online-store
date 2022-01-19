@@ -40,7 +40,13 @@ import {Router} from '@angular/router';
         <td mat-cell *matCellDef="let user">{{user.email}}</td>
       </ng-container>
 
-      <!-- Edit Column -->
+      <!-- Role Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let user">{{user.roles.name}}</td>
+      </ng-container>
+
+      Edit Column
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let user">
@@ -57,7 +63,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'edit'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'role', 'edit'];
   dataSource = new MatTableDataSource([]);
   users: User[];
   @ViewChild(MatTable) table: MatTable<User>;

@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
@@ -32,6 +31,24 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ErrorPopupComponent} from './component/error-popup/error-popup.component';
 import {EditUserComponent} from './user/edit-user/edit-user.component';
+import {LoginComponent} from './login/login.component';
+import {LoginStatusComponent} from './login-status/login-status.component';
+import {Router} from '@angular/router';
+import {OktaAuth} from '@okta/okta-auth-js';
+import {OKTA_CONFIG, OktaAuthModule} from '@okta/okta-angular';
+import myAppConfig from './login/my-app-config';
+import {AppRoutingModule} from './app-routing.module';
+
+
+const oktaConfig = Object.assign({
+  onAuthRequired: (_: undefined, injector: Injector) => {
+    const router = injector.get(Router);
+
+    router.navigate(['/login']);
+  }
+}, myAppConfig.oidc);
+
+const oktaAuth = new OktaAuth(oktaConfig);
 
 @NgModule({
   declarations: [
@@ -43,7 +60,9 @@ import {EditUserComponent} from './user/edit-user/edit-user.component';
     UserListComponent,
     NewUserComponent,
     ErrorPopupComponent,
-    EditUserComponent
+    EditUserComponent,
+    LoginComponent,
+    LoginStatusComponent
   ],
   imports: [
     AppRoutingModule,
@@ -66,13 +85,15 @@ import {EditUserComponent} from './user/edit-user/edit-user.component';
     MatTableModule,
     MatToolbarModule,
     NgbModule,
+    OktaAuthModule,
     _MatMenuDirectivesModule,
     ReactiveFormsModule,
     MatDialogModule
 
   ],
   providers: [
-    UserService
+    UserService,
+    {provide: OKTA_CONFIG, useValue: {oktaAuth}}
   ],
   bootstrap: [AppComponent]
 })

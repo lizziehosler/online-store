@@ -9,4 +9,6 @@
 .admin-menu {
   right: 10px;
   position: absolute;
+  display: flex;
+  flex-direction: row;
 }

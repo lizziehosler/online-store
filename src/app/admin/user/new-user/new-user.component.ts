@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../../services/user.service';
-import {ErrorPopupComponent} from '../../component/error-popup/error-popup.component';
+import {UserService} from '../../../services/user.service';
+import {ErrorPopupComponent} from '../../../component/error-popup/error-popup.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';

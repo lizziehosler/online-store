@@ -3,9 +3,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomepageComponent} from './homepage/homepage.component';
 import {OktaAuthGuard, OktaCallbackComponent} from '@okta/okta-angular';
 import {LoginComponent} from './login/login.component';
-import {NewUserComponent} from './user/new-user/new-user.component';
+import {NewUserComponent} from './admin/user/new-user/new-user.component';
 import {NgModule} from '@angular/core';
-import {UserListComponent} from './user/user-list/user-list.component';
+import {UserListComponent} from './admin/user/user-list/user-list.component';
+import {AdminProductsListComponent} from './admin/admin-products-list/admin-products-list.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'login/callback',
     component: OktaCallbackComponent
+  },
+  {
+    path: 'admin/products',
+    component: AdminProductsListComponent
   }
 ];
 

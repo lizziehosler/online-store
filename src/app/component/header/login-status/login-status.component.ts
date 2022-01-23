@@ -6,8 +6,13 @@ import {OktaAuth} from '@okta/okta-auth-js';
   selector: 'app-login-status',
   template: `
     <div class="login-status-header">
-      <div *ngIf="isAuthenticated && userFullName" class="login-status-user-info">
-        Welcome, {{ userFullName }}!
+      <div *ngIf="isAuthenticated && userFirstName" class="login-status-user-info">
+        <div class="name">
+          Welcome, {{ userFirstName }}!
+        </div>
+        <div>
+          |
+        </div>
       </div>
       <button mat-button *ngIf="!isAuthenticated" routerLink="/login">LOG IN</button>
       <button mat-button *ngIf="isAuthenticated" (click)="logout()">LOG OUT</button>
@@ -19,7 +24,7 @@ import {OktaAuth} from '@okta/okta-auth-js';
 export class LoginStatusComponent implements OnInit {
 
   isAuthenticated!: boolean;
-  userFullName?: string;
+  userFirstName?: string;
 
   constructor(@Inject(OKTA_AUTH)
               public oktaAuth: OktaAuth) {
@@ -30,7 +35,7 @@ export class LoginStatusComponent implements OnInit {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     if (this.isAuthenticated) {
       const userClaims = await this.oktaAuth.getUser();
-      this.userFullName = userClaims.name;
+      this.userFirstName = userClaims.given_name;
     }
   }
 

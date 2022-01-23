@@ -12,12 +12,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {FooterComponent} from './component/footer/footer.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
-import {UserComponent} from './user/user.component';
 import {HttpClientModule} from '@angular/common/http';
 import {UserService} from './services/user.service';
-import {UserListComponent} from './user/user-list/user-list.component';
+import {UserListComponent} from './admin/user/user-list/user-list.component';
 import {MatTableModule} from '@angular/material/table';
-import {NewUserComponent} from './user/new-user/new-user.component';
+import {NewUserComponent} from './admin/user/new-user/new-user.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
@@ -30,14 +29,14 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ErrorPopupComponent} from './component/error-popup/error-popup.component';
-import {EditUserComponent} from './user/edit-user/edit-user.component';
 import {LoginComponent} from './login/login.component';
-import {LoginStatusComponent} from './login-status/login-status.component';
+import {LoginStatusComponent} from './component/header/login-status/login-status.component';
 import {Router} from '@angular/router';
 import {OktaAuth} from '@okta/okta-auth-js';
 import {OKTA_CONFIG, OktaAuthModule} from '@okta/okta-angular';
 import myAppConfig from './login/my-app-config';
 import {AppRoutingModule} from './app-routing.module';
+import {AdminProductsListComponent} from './admin/admin-products-list/admin-products-list.component';
 
 
 const oktaConfig = Object.assign({
@@ -56,13 +55,12 @@ const oktaAuth = new OktaAuth(oktaConfig);
     HomepageComponent,
     HeaderComponent,
     FooterComponent,
-    UserComponent,
     UserListComponent,
     NewUserComponent,
     ErrorPopupComponent,
-    EditUserComponent,
     LoginComponent,
-    LoginStatusComponent
+    LoginStatusComponent,
+    AdminProductsListComponent
   ],
   imports: [
     AppRoutingModule,

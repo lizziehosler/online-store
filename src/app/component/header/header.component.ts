@@ -9,14 +9,16 @@ import {MatMenuTrigger} from '@angular/material/menu';
       <div class="spacer"> |</div>
       <mat-icon>shopping_basket</mat-icon>
       <div class="admin-menu">
+        <app-login-status></app-login-status>
         <button mat-button [matMenuTriggerFor]="menu">ADMIN</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item
                   [routerLink]="['/users']">USERS
           </button>
+          <button mat-menu-item
+                  [routerLink]="['/admin/products']">ADD PRODUCTS
+          </button>
         </mat-menu>
-        <div> |</div>
-        <app-login-status></app-login-status>
       </div>
     </mat-toolbar>
   `,

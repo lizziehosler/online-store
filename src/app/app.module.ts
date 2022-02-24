@@ -26,7 +26,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {CommonModule} from '@angular/common';
 import {MatSortModule} from '@angular/material/sort';
 import {MatNativeDateModule} from '@angular/material/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ErrorPopupComponent} from './component/error-popup/error-popup.component';
 import {LoginComponent} from './login/login.component';
@@ -36,7 +36,10 @@ import {OktaAuth} from '@okta/okta-auth-js';
 import {OKTA_CONFIG, OktaAuthModule} from '@okta/okta-angular';
 import myAppConfig from './login/my-app-config';
 import {AppRoutingModule} from './app-routing.module';
-import {AdminProductsListComponent} from './admin/admin-products-list/admin-products-list.component';
+import {BookService} from './services/book.service';
+import {BookListComponent} from './admin/book-list/book-list.component';
+import {AddEditBookComponent} from './add-edit-book/add-edit-book.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 const oktaConfig = Object.assign({
@@ -60,7 +63,8 @@ const oktaAuth = new OktaAuth(oktaConfig);
     ErrorPopupComponent,
     LoginComponent,
     LoginStatusComponent,
-    AdminProductsListComponent
+    BookListComponent,
+    AddEditBookComponent
   ],
   imports: [
     AppRoutingModule,
@@ -86,11 +90,14 @@ const oktaAuth = new OktaAuth(oktaConfig);
     OktaAuthModule,
     _MatMenuDirectivesModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonToggleModule,
+    FormsModule
 
   ],
   providers: [
     UserService,
+    BookService,
     {provide: OKTA_CONFIG, useValue: {oktaAuth}}
   ],
   bootstrap: [AppComponent]

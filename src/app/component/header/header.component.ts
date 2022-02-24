@@ -16,7 +16,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
                   [routerLink]="['/users']">USERS
           </button>
           <button mat-menu-item
-                  [routerLink]="['/admin/products']">ADD PRODUCTS
+                  [routerLink]="['/admin/books']">ADD BOOKS
           </button>
         </mat-menu>
       </div>

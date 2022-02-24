@@ -6,7 +6,8 @@ import {LoginComponent} from './login/login.component';
 import {NewUserComponent} from './admin/user/new-user/new-user.component';
 import {NgModule} from '@angular/core';
 import {UserListComponent} from './admin/user/user-list/user-list.component';
-import {AdminProductsListComponent} from './admin/admin-products-list/admin-products-list.component';
+import {BookListComponent} from './admin/book-list/book-list.component';
+import {AddEditBookComponent} from './add-edit-book/add-edit-book.component';
 
 const routes: Routes = [
   {
@@ -37,8 +38,16 @@ const routes: Routes = [
     component: OktaCallbackComponent
   },
   {
-    path: 'admin/products',
-    component: AdminProductsListComponent
+    path: 'admin/books',
+    component: BookListComponent
+  },
+  {
+    path: 'admin/books/new',
+    component: AddEditBookComponent
+  },
+  {
+    path: 'admin/books/edit/:id',
+    component: AddEditBookComponent
   }
 ];
 

@@ -1,0 +1,40 @@
+.full-width {
+  width: 80%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+mat-dialog-actions {
+  text-align: right;
+}
+
+mat-card {
+  width: 85%;
+}
+
+.smaller-width {
+  width: 30%;
+}
+
+.myform-wrapper {
+  margin: 50px;
+  width: 350px;
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  .mat-toolbar-single-row {
+    height: auto !important;
+    //background: transparent;
+
+    button {
+      width: 30%;
+    }
+  }
+}

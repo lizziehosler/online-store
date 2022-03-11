@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   template: `
     <div class="wrapper">
       <app-header [title]="title"></app-header>
-      <div fxFlex="1">
+      <div fxFlex="1" class="mat-app-background">
         <router-outlet></router-outlet>
       </div>
       <app-footer></app-footer>

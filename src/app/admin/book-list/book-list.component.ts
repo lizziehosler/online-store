@@ -4,6 +4,10 @@ import {Book} from '../../common/book';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {Router} from '@angular/router';
 import {GenreService} from '../../services/genre.service';
+import {first} from 'rxjs/operators';
+import {ErrorPopupComponent} from '../../component/popups/error-popup/error-popup.component';
+import {MatDialog} from '@angular/material/dialog';
+import {SuccessPopupComponent} from '../../component/popups/success-popup/success-popup.component';
 
 @Component({
   selector: 'app-book-list',
@@ -20,7 +24,7 @@ import {GenreService} from '../../services/genre.service';
       <!-- Image Column -->
       <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let book"><img src="{{book.imageUrl}}" height="100"></td>
+        <td mat-cell *matCellDef="let book"><img src="{{book.imageUrl}}" height="100" (error)="onImageError($event)"></td>
       </ng-container>
 
       <!-- Name Column -->
@@ -62,6 +66,14 @@ import {GenreService} from '../../services/genre.service';
         </td>
       </ng-container>
 
+      <!-- Delete Column -->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let book">
+          <mat-icon (click)="deleteBook(book.id, book.name)" style="cursor:pointer;">delete</mat-icon>
+        </td>
+      </ng-container>
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -71,15 +83,15 @@ import {GenreService} from '../../services/genre.service';
 export class BookListComponent implements OnInit {
   books: Book[];
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['image', 'name', 'sku', 'description', 'price', 'genre', 'edit'];
+  displayedColumns: string[] = ['image', 'name', 'sku', 'description', 'price', 'genre', 'edit', 'delete'];
   @ViewChild(MatTable) table: MatTable<Book>;
-  currentGenreId: number;
 
 
   constructor(
     private bookService: BookService,
     private genreService: GenreService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
   }
 
@@ -101,10 +113,45 @@ export class BookListComponent implements OnInit {
     this.router.navigate([`admin/books/edit/${id}`]);
   }
 
+  deleteBook(id: number, name: string) {
+    this.bookService.deleteBook(id)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.deleteBookSuccess(name);
+          this.listBooks();
+        },
+        error: error => {
+          this.deleteBookError();
+        }
+      });
+  }
+
   getGenre(id: number) {
-    console.log(this.bookService.getGenreByBookId(id));
     return this.bookService.getGenreByBookId(id);
     ;
   }
+
+  onImageError(event) {
+    event.target.src = '../assets/images/covers/placeholder.png';
+  }
+
+  private deleteBookSuccess(title) {
+    this.dialog.open(SuccessPopupComponent, {
+      data: {
+        successType: 'deleteBook',
+        bookTitle: title,
+      },
+    });
+  }
+
+  private deleteBookError() {
+    this.dialog.open(ErrorPopupComponent, {
+      data: {
+        errorType: 'deleteBook',
+      },
+    });
+  }
+
 
 }

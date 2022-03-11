@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
   template: `
 
     <mat-toolbar color="primary">
-      <div class="content">&copy;{{currentYear}} Elizabeth Hosler</div>
+      <div class="content">&copy;{{currentYear}} Elizabeth Hosler Batz</div>
     </mat-toolbar>
 
   `,

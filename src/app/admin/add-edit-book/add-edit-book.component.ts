@@ -3,10 +3,11 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
-import {ErrorPopupComponent} from '../component/error-popup/error-popup.component';
-import {BookService} from '../services/book.service';
-import {GenreService} from '../services/genre.service';
-import {Genre} from '../common/genre';
+import {ErrorPopupComponent} from '../../component/popups/error-popup/error-popup.component';
+import {BookService} from '../../services/book.service';
+import {GenreService} from '../../services/genre.service';
+import {Genre} from '../../common/genre';
+import {SuccessPopupComponent} from '../../component/popups/success-popup/success-popup.component';
 
 @Component({
   selector: 'app-add-edit-book',
@@ -73,7 +74,7 @@ import {Genre} from '../common/genre';
           <mat-form-field appearance="standard" class="smaller-width">
             <mat-label>Genre</mat-label>
             <mat-select formControlName="genre">
-              <mat-option *ngFor="let genre of genres" value="genre._links.self.href">
+              <mat-option *ngFor="let genre of genres" [value]="genre._links.self.href">
                 {{genre.name}}
               </mat-option>
             </mat-select>
@@ -123,7 +124,7 @@ export class AddEditBookComponent implements OnInit {
     this.createForm();
 
     this.getGenres();
-    this.getGenreofBook(this.id);
+    // this.getBookGenre(this.id);
 
     if (!this.isAddMode) {
       this.bookService.getBookById(this.id)
@@ -158,9 +159,9 @@ export class AddEditBookComponent implements OnInit {
 
     this.loading = true;
     if (this.isAddMode) {
-      this.createBook(this.form);
+      this.createBook(this.form.value.name);
     } else {
-      this.editBook(this.form);
+      this.editBook(this.form.value.name);
     }
   }
 
@@ -169,8 +170,8 @@ export class AddEditBookComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert('SUCCESS!! :-)\n\n' + JSON.stringify(form.value, null, 4));
-          this.router.navigate(['books']);
+          this.addBookSuccess(form);
+          this.router.navigate(['admin/books']);
         },
         error: error => {
           this.addBookError();
@@ -185,8 +186,8 @@ export class AddEditBookComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert('SUCCESS!! :-)\n\n' + JSON.stringify(form.value, null, 4));
-          this.router.navigate(['books']);
+          this.editBookSuccess(form);
+          this.router.navigate(['admin/books']);
         },
         error: error => {
           this.editBookError();
@@ -211,6 +212,25 @@ export class AddEditBookComponent implements OnInit {
     });
   }
 
+  private addBookSuccess(title) {
+    this.dialog.open(SuccessPopupComponent, {
+      data: {
+        successType: 'addBook',
+        bookTitle: title,
+      },
+    });
+  }
+
+  private editBookSuccess(title) {
+    this.dialog.open(SuccessPopupComponent, {
+      data: {
+        successType: 'editBook',
+        bookTitle: title,
+      },
+    });
+  }
+
+
   getGenres() {
     this.genreService.getGenreList().subscribe(
       genreData => {
@@ -219,15 +239,15 @@ export class AddEditBookComponent implements OnInit {
     );
   }
 
-  getGenreofBook(id: number) {
-    return this.bookService.getGenreByBookId(id).subscribe(
-      genre => {
-        this.genreName = genre.name;
-
-      }
-    );
-    ;
-  }
+  // getBookGenre(id: number) {
+  //   return this.bookService.getGenreByBookId(id).subscribe(
+  //     genre => {
+  //       this.genreName = genre.name;
+  //
+  //     }
+  //   );
+  //   ;
+  // }
 
 }
 

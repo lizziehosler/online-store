@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   constructor(@Inject(OKTA_AUTH) public oktaAuth: OktaAuth) {
     this.oktaSignIn = new OktaSignIn({
+      logo: './assets/images/logo/books.png',
       features: {
         registration: true
       },

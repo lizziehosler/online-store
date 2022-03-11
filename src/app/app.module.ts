@@ -28,7 +28,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatNativeDateModule} from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ErrorPopupComponent} from './component/error-popup/error-popup.component';
+import {ErrorPopupComponent} from './component/popups/error-popup/error-popup.component';
 import {LoginComponent} from './login/login.component';
 import {LoginStatusComponent} from './component/header/login-status/login-status.component';
 import {Router} from '@angular/router';
@@ -38,8 +38,9 @@ import myAppConfig from './login/my-app-config';
 import {AppRoutingModule} from './app-routing.module';
 import {BookService} from './services/book.service';
 import {BookListComponent} from './admin/book-list/book-list.component';
-import {AddEditBookComponent} from './add-edit-book/add-edit-book.component';
+import {AddEditBookComponent} from './admin/add-edit-book/add-edit-book.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {SuccessPopupComponent} from './component/popups/success-popup/success-popup.component';
 
 
 const oktaConfig = Object.assign({
@@ -64,7 +65,8 @@ const oktaAuth = new OktaAuth(oktaConfig);
     LoginComponent,
     LoginStatusComponent,
     BookListComponent,
-    AddEditBookComponent
+    AddEditBookComponent,
+    SuccessPopupComponent
   ],
   imports: [
     AppRoutingModule,

@@ -12,18 +12,19 @@ import {SuccessPopupComponent} from '../../component/popups/success-popup/succes
 @Component({
   selector: 'app-book-list',
   template: `
-    <div class="title-group">
-      <div class="title">Books</div>
-      <button mat-raised-button color="primary" [routerLink]="['/admin/books/new']">
-        <mat-icon>add_box</mat-icon>
-        ADD NEW BOOK
-      </button>
+    <div class="title-group-admin">
+      <div class="title">Book Inventory Manager</div>
     </div>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 book-table">
       <!-- Image Column -->
       <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef>
+          <button mat-raised-button color="primary" [routerLink]="['/admin/books/new']">
+            <mat-icon>add_box</mat-icon>
+            ADD NEW BOOK
+          </button>
+        </th>
         <td mat-cell *matCellDef="let book"><img src="{{book.imageUrl}}" height="100" (error)="onImageError($event)"></td>
       </ng-container>
 
@@ -51,18 +52,24 @@ import {SuccessPopupComponent} from '../../component/popups/success-popup/succes
         <td mat-cell *matCellDef="let book">{{book.unitPrice}}</td>
       </ng-container>
 
-      <!-- Genre Column -->
-      <ng-container matColumnDef="genre">
-        <th mat-header-cell *matHeaderCellDef>Genre</th>
-        <td mat-cell *matCellDef="let book">{{this.getGenre(book.id)}}</td>
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+        <td mat-cell *matCellDef="let book">{{book.unitsInStock}}</td>
       </ng-container>
+
+      <!-- Genre Column -->
+      <!--      <ng-container matColumnDef="genre">-->
+      <!--        <th mat-header-cell *matHeaderCellDef>Genre</th>-->
+      <!--        <td mat-cell *matCellDef="let book">{{book._links.genre.href}}</td>-->
+      <!--      </ng-container>-->
 
 
       <!-- Edit Column -->
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let book">
-          <mat-icon (click)="routeToEditBook(book.id)" style="cursor:pointer;">edit</mat-icon>
+          <mat-icon (click)="routeToEditBook(book.id)" style="cursor:pointer;" matTooltip="Edit Book">edit</mat-icon>
         </td>
       </ng-container>
 
@@ -70,7 +77,7 @@ import {SuccessPopupComponent} from '../../component/popups/success-popup/succes
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let book">
-          <mat-icon (click)="deleteBook(book.id, book.name)" style="cursor:pointer;">delete</mat-icon>
+          <mat-icon (click)="deleteBook(book.id, book.name)" style="cursor:pointer;" matTooltip="Delete Book">delete</mat-icon>
         </td>
       </ng-container>
 
@@ -83,7 +90,7 @@ import {SuccessPopupComponent} from '../../component/popups/success-popup/succes
 export class BookListComponent implements OnInit {
   books: Book[];
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['image', 'name', 'sku', 'description', 'price', 'genre', 'edit', 'delete'];
+  displayedColumns: string[] = ['image', 'name', 'sku', 'description', 'price', 'quantity', 'edit', 'delete'];
   @ViewChild(MatTable) table: MatTable<Book>;
 
 
@@ -125,11 +132,6 @@ export class BookListComponent implements OnInit {
           this.deleteBookError();
         }
       });
-  }
-
-  getGenre(id: number) {
-    return this.bookService.getGenreByBookId(id);
-    ;
   }
 
   onImageError(event) {

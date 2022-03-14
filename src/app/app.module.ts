@@ -41,6 +41,11 @@ import {BookListComponent} from './admin/book-list/book-list.component';
 import {AddEditBookComponent} from './admin/add-edit-book/add-edit-book.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {SuccessPopupComponent} from './component/popups/success-popup/success-popup.component';
+import {MatBadgeModule} from '@angular/material/badge';
+import {CartStatusPopupComponent} from './component/popups/cart-status-popup/cart-status-popup.component';
+import {ShoppingCartComponent} from './cart/shopping-cart.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 const oktaConfig = Object.assign({
@@ -66,7 +71,9 @@ const oktaAuth = new OktaAuth(oktaConfig);
     LoginStatusComponent,
     BookListComponent,
     AddEditBookComponent,
-    SuccessPopupComponent
+    SuccessPopupComponent,
+    CartStatusPopupComponent,
+    ShoppingCartComponent
   ],
   imports: [
     AppRoutingModule,
@@ -94,7 +101,10 @@ const oktaAuth = new OktaAuth(oktaConfig);
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonToggleModule,
-    FormsModule
+    FormsModule,
+    MatBadgeModule,
+    MatStepperModule,
+    MatTooltipModule
 
   ],
   providers: [

@@ -6,7 +6,7 @@ hr {
 }
 
 h1 {
-  font-size: 60pt;
+  font-size: 70pt;
   text-align: center;
   padding: 15rem 0 7rem 0;
 }
@@ -25,4 +25,14 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+mat-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: x-large;
 }

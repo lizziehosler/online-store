@@ -17,13 +17,11 @@ import {SuccessPopupComponent} from '../../component/popups/success-popup/succes
         <mat-icon>arrow_back_ios</mat-icon>
         VIEW ALL BOOKS
       </button>
-      <div class="title" *ngIf="isAddMode">Add a New Book</div>
-      <div class="title" *ngIf="!isAddMode">Edit Book</div>
-
     </div>
-
     <div class="container">
       <mat-card>
+        <div class="title" *ngIf="isAddMode">Add a New Book</div>
+        <div class="title" *ngIf="!isAddMode">Edit Book</div>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="standard" class="full-width">
             <mat-label>Title</mat-label>

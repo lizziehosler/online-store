@@ -6,6 +6,7 @@ import {LoginComponent} from './login/login.component';
 import {NgModule} from '@angular/core';
 import {BookListComponent} from './admin/book-list/book-list.component';
 import {AddEditBookComponent} from './admin/add-edit-book/add-edit-book.component';
+import {ShoppingCartComponent} from './cart/shopping-cart.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
     path: 'admin/books/edit/:id',
     component: AddEditBookComponent,
     canActivate: [OktaAuthGuard]
+  },
+  {
+    path: 'cart',
+    component: ShoppingCartComponent
   }
 ];
 

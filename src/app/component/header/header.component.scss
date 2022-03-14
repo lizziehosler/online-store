@@ -12,3 +12,8 @@
   display: flex;
   flex-direction: row;
 }
+
+mat-toolbar {
+  position: fixed;
+  z-index: 1;
+}

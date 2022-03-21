@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {CartService} from '../services/cart.service';
+import {CartItem} from '../common/cart-item';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -8,22 +11,88 @@ import {Component, OnInit} from '@angular/core';
         <form>
           <ng-template matStepLabel>Shopping Cart</ng-template>
           <div>
-            <button mat-raised-button color="primary" matStepperNext>Next</button>
+            <h2 *ngIf="this.books.length === 0">Your shopping cart is empty :(</h2>
+            <div *ngIf="this.books.length !== 0">
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 book-table">
+                <!-- Image Column -->
+                <ng-container matColumnDef="image">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let book"><img src="{{book.imageUrl}}" height="100" (error)="onImageError($event)"></td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Title</th>
+                  <td mat-cell *matCellDef="let book">{{book.name}}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef>Price</th>
+                  <td mat-cell *matCellDef="let book">{{book.unitPrice}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                  <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                  <td mat-cell *matCellDef="let book">{{book.quantity}}</td>
+                </ng-container>
+
+                <!-- Delete Column -->
+                <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let book">
+                    <mat-icon (click)="deleteBook(book.id, book.name)" style="cursor:pointer;" matTooltip="Delete Book">delete</mat-icon>
+                  </td>
+                </ng-container>
+
+                <!--              <ng-container matColumnDef="delete">-->
+                <!--                <th mat-header-cell *matHeaderCellDef></th>-->
+                <!--                <td mat-cell *matCellDef="let book">-->
+                <!--                </td>-->
+                <!--              </ng-container>-->
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+            <div class="button-right">
+              <button
+                mat-raised-button
+                color="primary"
+                matStepperNext
+                [disabled]="this.books.length === 0"
+              >
+                Continue to shipping
+              </button>
+            </div>
           </div>
         </form>
       </mat-step>
       <mat-step label="Shipping">
+        <h2>Shipping</h2>
         <form>
-          <div>
+          <div class="button-left">
             <button mat-raised-button color="primary" matStepperPrevious>Back</button>
-            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+          <div class="button-right">
+            <button mat-raised-button color="primary" matStepperNext>Continue to payment</button>
           </div>
         </form>
       </mat-step>
       <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
+        <ng-template matStepLabel>Payment</ng-template>
+        <h2>Payment</h2>
+        <div class="button-left">
+          <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+        </div>
+        <div class="button-right">
+          <button mat-raised-button color="primary" matStepperNext>Pay now</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Confirmation</ng-template>
+        <h2>Thank you for your purchase!</h2>
+        <div class="button-left">
           <button mat-raised-button color="primary" matStepperPrevious>Back</button>
         </div>
       </mat-step>
@@ -32,15 +101,41 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
+  dataSource = new MatTableDataSource([]);
+  displayedColumns: string[] = ['image', 'name', 'price', 'quantity', 'delete'];
+  totalPrice = 0;
+  totalQuantity = 0;
+  books: CartItem[] = [];
 
 
-  constructor() {
+  constructor(
+    private cartService: CartService
+  ) {
 
   }
 
   ngOnInit(): void {
+    this.listCartInventory();
+  }
+
+  listCartInventory() {
+    this.dataSource.data = this.cartService.cartItems;
+    this.books = this.cartService.cartItems;
+    this.cartService.cartPrice.subscribe(
+      price => this.totalPrice = price
+    );
+    this.cartService.cartQuantity.subscribe(
+      quantity => this.totalQuantity = quantity
+    );
+    this.cartService.computeTotals();
 
   }
 
+  deleteBook(id: number, name: string) {
 
+  }
+
+  onImageError(event) {
+    event.target.src = '../assets/images/covers/placeholder.png';
+  }
 }

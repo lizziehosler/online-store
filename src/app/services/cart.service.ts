@@ -17,12 +17,7 @@ export class CartService {
     let alreadyExistsInCart = false;
     let existingCartItem: CartItem;
     if (this.cartItems.length > 0) {
-      for (let tempCartItem of this.cartItems) {
-        if (tempCartItem.id === cartItem.id) {
-          existingCartItem = tempCartItem;
-          break;
-        }
-      }
+      existingCartItem = this.cartItems.find(item => item.id === cartItem.id);
 
       alreadyExistsInCart = (existingCartItem !== undefined);
     }
@@ -36,7 +31,7 @@ export class CartService {
   }
 
 
-  private computeTotals() {
+  public computeTotals() {
     let totalPrice = 0;
     let totalQuantity = 0;
 

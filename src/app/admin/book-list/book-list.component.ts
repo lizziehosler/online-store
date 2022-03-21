@@ -88,7 +88,6 @@ import {SuccessPopupComponent} from '../../component/popups/success-popup/succes
   styleUrls: ['./book-list.component.scss']
 })
 export class BookListComponent implements OnInit {
-  books: Book[];
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['image', 'name', 'sku', 'description', 'price', 'quantity', 'edit', 'delete'];
   @ViewChild(MatTable) table: MatTable<Book>;
@@ -109,7 +108,6 @@ export class BookListComponent implements OnInit {
   listBooks() {
     this.bookService.getBookList().subscribe(
       data => {
-        this.books = data;
         this.dataSource.data = data;
       }
     );

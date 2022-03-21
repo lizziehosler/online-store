@@ -25,6 +25,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 5%;
 }
 
 mat-card-actions {
@@ -36,3 +37,12 @@ mat-card-actions {
 .price {
   font-size: x-large;
 }
+
+mat-card {
+  max-width: 300px;
+}
+
+.book-view {
+  padding-bottom: 10%;
+}
+

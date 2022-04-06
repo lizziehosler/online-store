@@ -31,7 +31,7 @@ export class CartService {
   }
 
 
-  public computeTotals() {
+  computeTotals() {
     let totalPrice = 0;
     let totalQuantity = 0;
 
@@ -51,5 +51,13 @@ export class CartService {
     console.log(`total price: ${totalPrice.toFixed(2)}, total quanityt: ${totalQuantity}`);
     console.log('---');
 
+  }
+
+  remove(book: CartItem) {
+    const itemIndex = this.cartItems.findIndex(item => item.id === book.id);
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+      this.computeTotals();
+    }
   }
 }

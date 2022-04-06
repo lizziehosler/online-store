@@ -48,33 +48,27 @@ import {CartItem} from '../common/cart-item';
                 <ng-container matColumnDef="delete">
                   <th mat-header-cell *matHeaderCellDef></th>
                   <td mat-cell *matCellDef="let book">
-                    <mat-icon (click)="deleteBook(book.id, book.name)" style="cursor:pointer;" matTooltip="Delete Book">delete</mat-icon>
+                    <mat-icon (click)="deleteBook(book)" style="cursor:pointer;" matTooltip="Remove from cart">delete</mat-icon>
                   </td>
                 </ng-container>
-
-                <!--              <ng-container matColumnDef="delete">-->
-                <!--                <th mat-header-cell *matHeaderCellDef></th>-->
-                <!--                <td mat-cell *matCellDef="let book">-->
-                <!--                </td>-->
-                <!--              </ng-container>-->
-
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
+              <div class="button-right">
+                <h3>Total quantity: {{totalQuantity}}</h3>
+                <h3>Total price: {{totalPrice | currency}}</h3>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  matStepperNext
+                  [disabled]="this.books.length === 0"
+                >
+                  Continue to shipping
+                </button>
+              </div>
             </div>
-            <div class="button-right">
-              <h3>Total quantity: {{totalQuantity}}</h3>
-              <h3>Total price: {{totalPrice | currency}}</h3>
-              <button
-                mat-raised-button
-                color="primary"
-                matStepperNext
-                [disabled]="this.books.length === 0"
-              >
-                Continue to shipping
-              </button>
-            </div>
+
           </div>
         </form>
       </mat-step>
@@ -141,8 +135,9 @@ export class ShoppingCartComponent implements OnInit {
 
   }
 
-  deleteBook(id: number, name: string) {
-
+  deleteBook(book: CartItem) {
+    this.cartService.remove(book);
+    this.listCartInventory();
   }
 
   onImageError(event) {

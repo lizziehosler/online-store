@@ -22,18 +22,26 @@ import {CartItem} from '../common/cart-item';
 
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Title</th>
-                  <td mat-cell *matCellDef="let book">{{book.name}}</td>
-                </ng-container>
-
-
-                <ng-container matColumnDef="price">
-                  <th mat-header-cell *matHeaderCellDef>Price</th>
-                  <td mat-cell *matCellDef="let book">{{book.unitPrice}}</td>
+                  <td mat-cell *matCellDef="let book">
+                    <div class="cart-spacing">
+                      <div>{{book.name}}</div>
+                      <div>{{book.unitPrice}}</div>
+                    </div>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="quantity">
-                  <th mat-header-cell *matHeaderCellDef>Quantity</th>
-                  <td mat-cell *matCellDef="let book">{{book.quantity}}</td>
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let book">
+                    <div>Quantity: {{book.quantity}}</div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subtotal">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let book">
+                    <div>Subtotal: {{book.quantity * book.unitPrice}}</div>
+                  </td>
                 </ng-container>
 
                 <!-- Delete Column -->
@@ -56,6 +64,8 @@ import {CartItem} from '../common/cart-item';
               </table>
             </div>
             <div class="button-right">
+              <h3>Total quantity: {{totalQuantity}}</h3>
+              <h3>Total price: {{totalPrice | currency}}</h3>
               <button
                 mat-raised-button
                 color="primary"
@@ -102,7 +112,7 @@ import {CartItem} from '../common/cart-item';
 })
 export class ShoppingCartComponent implements OnInit {
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['image', 'name', 'price', 'quantity', 'delete'];
+  displayedColumns: string[] = ['image', 'name', 'quantity', 'subtotal', 'delete'];
   totalPrice = 0;
   totalQuantity = 0;
   books: CartItem[] = [];
